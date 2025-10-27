@@ -22,40 +22,40 @@ jobs:
       - name: Build and test with Maven
         run: mvn clean verify --file ./TP2/simple-api/pom.xml 
   build-and-push-docker-image:
-  needs: test-backend
-  runs-on: ubuntu-24.04
+    needs: test-backend
+    runs-on: ubuntu-24.04
 
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Login to DockerHub
-      if: github.ref == 'refs/heads/main'
-      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      - name: Login to DockerHub
+        if: github.ref == 'refs/heads/main'
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-    - name: Build (and maybe push) backend image
-      uses: docker/build-push-action@v6
-      with:
-        context: ./simple-api         
-        tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:sha-${{ github.sha }}
-        push: ${{ github.ref == 'refs/heads/main' }}
+      - name: Build (and maybe push) backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./simple-api         
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:sha-${{ github.sha }}
+          push: ${{ github.ref == 'refs/heads/main' }}
 
-    - name: Build (and maybe push) database image
-      uses: docker/build-push-action@v6
-      with:
-        context: ./database
-        tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:sha-${{ github.sha }}
-        push: ${{ github.ref == 'refs/heads/main' }}
+      - name: Build (and maybe push) database image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./database
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:sha-${{ github.sha }}
+          push: ${{ github.ref == 'refs/heads/main' }}
 
-    - name: Build (and maybe push) httpd image
-      uses: docker/build-push-action@v6
-      with:
-        context: ./httpd
-        tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:sha-${{ github.sha }}
-        push: ${{ github.ref == 'refs/heads/main' }}
+      - name: Build (and maybe push) httpd image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./httpd
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:sha-${{ github.sha }}
+          push: ${{ github.ref == 'refs/heads/main' }}

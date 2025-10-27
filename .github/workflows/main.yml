@@ -51,10 +51,10 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
           push: ${{ github.ref == 'refs/heads/main' }}
 
-      - name: Build (and maybe push) httpd image
+      - name: Build (and maybe push) http-server image
         uses: docker/build-push-action@v6
         with:
-          context: ./httpd
+          context: ./TP2/http-server
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
           push: ${{ github.ref == 'refs/heads/main' }}

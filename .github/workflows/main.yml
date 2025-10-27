@@ -32,7 +32,7 @@ jobs:
         run: mvn clean verify --file ./TP2/simple-api/pom.xml 
 
         
-  Sonar Analysis: 
+  sonar-analysis: 
     runs-on: ubuntu-24.04
 
     steps:

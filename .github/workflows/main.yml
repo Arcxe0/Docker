@@ -34,11 +34,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
+
       - name: Build (and maybe push) backend image
         uses: docker/build-push-action@v6
         with:
-          context: ./simple-api         
+          context: ./TP2/simple-api         
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
           push: ${{ github.ref == 'refs/heads/main' }}
@@ -46,7 +46,7 @@ jobs:
       - name: Build (and maybe push) database image
         uses: docker/build-push-action@v6
         with:
-          context: ./database
+          context: ./TP2/database
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
           push: ${{ github.ref == 'refs/heads/main' }}

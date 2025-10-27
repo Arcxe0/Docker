@@ -39,7 +39,6 @@ jobs:
           context: ./simple-api         
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:sha-${{ github.sha }}
           push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Build (and maybe push) database image
@@ -48,7 +47,6 @@ jobs:
           context: ./database
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:sha-${{ github.sha }}
           push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Build (and maybe push) httpd image
@@ -57,5 +55,4 @@ jobs:
           context: ./httpd
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:sha-${{ github.sha }}
           push: ${{ github.ref == 'refs/heads/main' }}

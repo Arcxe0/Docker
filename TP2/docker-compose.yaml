@@ -18,9 +18,12 @@ services:
       - my-network
 
   httpd:
+    container_name: httpd
     build: "http-server"
+    depends_on:
+      - backend
     ports:
-      - "80:80"
+      - "8088:80"
     networks:
       - my-network
 

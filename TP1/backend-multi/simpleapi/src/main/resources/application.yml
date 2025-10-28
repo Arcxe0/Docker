@@ -5,17 +5,15 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+          ddl-auto: update
     generate-ddl: false
     open-in-view: true
-  datasource:
-    url: jdbc:postgresql://database:5432/db
-    username: usr
-    password: pwd
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 management:
  server:
    add-application-context-header: false

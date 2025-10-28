@@ -7,7 +7,8 @@ RUN apk add --no-cache maven
 
 COPY pom.xml .
 COPY src ./src
-RUN mvn package -DskipTests
+RUN mvn dependency:go-offline
+RUN mvn package -DskipTests -U
 
 # Run stage
 FROM eclipse-temurin:21-jre-alpine

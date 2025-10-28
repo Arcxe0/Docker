@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  database:
+    build: ./database
+    container_name: database
+    networks:
+      - backend-net
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build: ./backend-multi/simpleapi
+    container_name: backend
+    networks:
+      - frontend-net
+      - backend-net
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    restart: on-failure:3
+
+  httpd:
+    build: ./httpd
+    container_name: httpd
+    restart: no
+    ports:
+      - "80:80"
+    networks:
+      - frontend-net
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+
+networks:
+  frontend-net:
+  backend-net:
